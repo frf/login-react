@@ -1,24 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
+import api from './services/api';
 import './App.css';
+import logo from './assets/logo.svg';
 
 function App() {
+  const [username, setUsername] = useState('admin');
+  const [password, setPassword] = useState('');
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const response = await api.post('/login', {
+      username,
+      password
+    });
+
+    console.log(username, password);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className="container">
+      <img src={logo} alt="Logo" />
+
+      <div className="content">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Ofereca blabslblasblasbla <strong>spots</strong> para progamadores.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="username">Username *</label>
+          <input 
+            type="text" 
+            id="username"
+            placeholder="Seu melhor e-mail"
+            value={username}
+            onChange={event => setUsername(event.target.value) }
+          />
+        <input 
+            type="password" 
+            id="password"
+            onChange={event => setPassword(event.target.value) }
+          />
+          <button className="btn" type="submit">Entrar</button>
+        </form>
+      </div>
     </div>
   );
 }
